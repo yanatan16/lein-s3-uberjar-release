@@ -43,12 +43,12 @@
     (println "Wrote shafile" (shafile-local project) "as" sha)))
 
 (defn- upload-uberjar [project]
-  (println "Uploading uberjar")
+  (println "Uploading uberjar" (uberjar-target project))
   (sh "s3cmd" "put" (uberjar-local project)
                     (uberjar-target project)))
 
 (defn- upload-shafile [project]
-  (println "Uploading uberjar sha512")
+  (println "Uploading uberjar sha512" (shafile-target project))
   (sh "s3cmd" "put" "-P" (shafile-local project)
                          (shafile-target project)))
 

@@ -1,4 +1,4 @@
-(defproject lein-s3-uberjar-release "0.1.0"
+(defproject lein-s3-uberjar-release "0.1.1"
   :description "Upload an uberjar to s3 as a release task"
   :url "http://github.com/Rafflecopter/lein-s3-uberjar-release"
   :license {:name "MIT"
