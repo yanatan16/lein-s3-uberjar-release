@@ -1,5 +1,7 @@
 # lein-s3-uberjar-release
 
+[![Clojars Project](http://clojars.org/com.rafflecopter/lein-s3-uberjar-release/latest-version.svg)](http://clojars.org/com.rafflecopter/lein-s3-uberjar-release)
+
 Lein plugin to upload an uberjar to s3.
 
 ## Configuration
