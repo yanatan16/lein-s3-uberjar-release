@@ -54,14 +54,28 @@
   (eval/sh "s3cmd" "put" "-P" (shafile-local project)
                               (shafile-target project)))
 
-(defn- tag-release [project]
-  (eval/sh "git" "tag" "-s" "release" "-m" "Marked for release" "-f")
-  (eval/sh "git" "push" "origin" "+release"))
+(defn- ensure-release-branch [project]
+  (try (capture-sh "git" "checkout" "-b" "release")
+    (catch Exception e nil)))
+(defn- merge-to-release [project]
+  (let [cur-branch (capture-sh "git" "rev-parse" "--abbrev-ref" "HEAD")]
+    (when-not (= cur-branch "master")
+      (throw (Exception. "You can only release from master."))))
 
+  (eval/sh "git" "checkout" "release")
+  (eval/sh "git" "merge" "master")
+  (eval/sh "git" "checkout" "master"))
+(defn- push-release [project]
+  (eval/sh "git" "push" "origin" "+release"))
+(defn- do-release-branch [project]
+  (doto project
+    (ensure-release-branch)
+    (merge-to-release)
+    (push-release)))
 
 (defn do-release [project]
   (doto project
-    (tag-release)
+    (do-release-branch)
     (uberjar/uberjar)
     (make-shafile)
     (upload-uberjar)
